@@ -1,5 +1,5 @@
 /**
- * MediaPipe Hands + camera + Rasengan overlay.
+ * MediaPipe Hands + camera + skill FX overlay.
  */
 (function () {
   'use strict';
@@ -14,8 +14,24 @@
   const toggleLandmarks = document.getElementById('toggleLandmarks');
   const intensitySlider = document.getElementById('intensity');
   const sizeSlider = document.getElementById('size');
+  const titleMain = document.getElementById('titleMain');
+  const skillButtons = document.querySelectorAll('.skill-btn');
 
-  const fx = new RasenganFX();
+  const SKILLS = {
+    rasengan: {
+      title: '螺旋丸 <span class="sub">Rasengan</span>',
+      theme: '',
+      factory: () => new RasenganFX(),
+    },
+    void: {
+      title: '無量空處 <span class="sub">Unlimited Void</span>',
+      theme: 'theme-void',
+      factory: () => new UnlimitedVoidFX(),
+    },
+  };
+
+  let currentSkill = 'rasengan';
+  let fx = SKILLS.rasengan.factory();
   let camera = null;
   let hands = null;
   let running = false;
@@ -23,10 +39,8 @@
   let latestResults = null;
   let animId = 0;
 
-  // Palm landmarks: wrist(0), index MCP(5), middle MCP(9), ring MCP(13), pinky MCP(17)
   const PALM_IDS = [0, 5, 9, 13, 17];
 
-  // Fallback bone pairs if drawing_utils fails to load
   const FALLBACK_BONES = [
     [0, 1], [1, 2], [2, 3], [3, 4],
     [0, 5], [5, 6], [6, 7], [7, 8],
@@ -38,6 +52,37 @@
 
   function setStatus(text) {
     statusEl.textContent = text;
+  }
+
+  function setSkill(id) {
+    if (!SKILLS[id] || id === currentSkill) {
+      // Still refresh UI if re-clicked same
+      if (SKILLS[id]) applySkillUI(id);
+      return;
+    }
+    // Preserve smooth palm pose across switch
+    const prev = fx.smooth;
+    currentSkill = id;
+    fx = SKILLS[id].factory();
+    if (prev) {
+      fx.smooth.x = prev.x;
+      fx.smooth.y = prev.y;
+      fx.smooth.r = prev.r;
+      fx.smooth.visible = prev.visible;
+    }
+    applySkillUI(id);
+  }
+
+  function applySkillUI(id) {
+    const meta = SKILLS[id];
+    titleMain.innerHTML = meta.title;
+    document.body.classList.remove('theme-void');
+    if (meta.theme) document.body.classList.add(meta.theme);
+    skillButtons.forEach((btn) => {
+      const on = btn.dataset.skill === id;
+      btn.classList.toggle('active', on);
+      btn.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
   }
 
   function resizeCanvas() {
@@ -124,7 +169,6 @@
     ctx.save();
     ctx.clearRect(0, 0, w, h);
 
-    // Mirror to match selfie view
     ctx.translate(w, 0);
     ctx.scale(-1, 1);
 
@@ -168,7 +212,7 @@
     ctx.restore();
 
     if (handCount > 0) {
-      setStatus(`Tracking · ${handCount} hand${handCount > 1 ? 's' : ''}`);
+      setStatus(`Tracking · ${handCount} hand${handCount > 1 ? 's' : ''} · ${currentSkill === 'void' ? 'Void' : 'Rasengan'}`);
     } else if (running) {
       setStatus('Looking for palm…');
     }
@@ -257,11 +301,22 @@
     setStatus('Stopped');
   }
 
+  skillButtons.forEach((btn) => {
+    btn.addEventListener('click', () => setSkill(btn.dataset.skill));
+  });
+
   btnStart.addEventListener('click', start);
   btnStop.addEventListener('click', stop);
   window.addEventListener('resize', resizeCanvas);
 
+  // Keyboard 1 / 2 to switch skills
+  window.addEventListener('keydown', (e) => {
+    if (e.key === '1') setSkill('rasengan');
+    if (e.key === '2') setSkill('void');
+  });
+
   overlay.classList.remove('hidden');
+  applySkillUI('rasengan');
   setStatus('Idle — press Start Camera');
   resizeCanvas();
 })();

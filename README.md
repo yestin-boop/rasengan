@@ -1,13 +1,18 @@
-# Rasengan (螺旋丸) — Palm Energy Demo
+# Palm Energy Demo — Rasengan & Unlimited Void
 
-Fun side project: webcam hand-tracking with a **procedural** glowing energy sphere anchored to your palm. Inspired by Instagram-style MediaPipe Hands demos.
+Fun side project: webcam hand-tracking with **procedural** glowing skills anchored to your palm.
 
-Fan-made effect only — **no Naruto assets or official IP**. Not affiliated with Studio Pierrot / Shueisha.
+- **螺旋丸 / Rasengan** — dense spinning blue energy sphere (wisps, ribbons, sparks, volumetric glow)
+- **無量空處 / Unlimited Void** — Gojo-inspired domain vibe: purple-black cosmic void, starfield, fractal rings expanding from the palm
+
+Fan-made procedural FX only — **no copyrighted anime assets**. Not affiliated with Naruto / Jujutsu Kaisen / Studio Pierrot / MAPPA / Shueisha.
+
+**Live:** [https://yestin-boop.github.io/rasengan/](https://yestin-boop.github.io/rasengan/)
 
 ## Stack
 
 - MediaPipe Hands + Camera utils (CDN: jsDelivr)
-- Canvas 2D overlay (layered glow, spiral wisps, particles, rings)
+- Canvas 2D overlay (layered glow, particles, domain void)
 - Static HTML / CSS / JS — no build step
 
 ## Run locally
@@ -15,39 +20,30 @@ Fan-made effect only — **no Naruto assets or official IP**. Not affiliated wit
 Camera APIs need a **secure context**: `localhost` or HTTPS.
 
 ```bash
-cd /workspace/rasengan
+cd rasengan
 python3 -m http.server 8000
 ```
 
 Open: [http://localhost:8000](http://localhost:8000)
 
-Then click **Start Camera**, allow permission, and show an open palm to the webcam.
-
-### Alternatives
-
-```bash
-# Node
-npx --yes serve -l 8000
-
-# PHP
-php -S localhost:8000
-```
+Then click **Start Camera**, allow permission, and show an open palm.
 
 ## Controls
 
 | Control | Action |
 |--------|--------|
+| **Skill tabs** | Switch Rasengan ↔ Unlimited Void (or keys `1` / `2`) |
 | **Start Camera** | Request webcam + start tracking |
 | **Stop Camera** | Release webcam |
 | **Show landmarks** | Orange MediaPipe skeleton overlay |
 | **Intensity** | Glow / particle brightness |
-| **Size** | Sphere scale relative to palm |
+| **Size** | Effect scale relative to palm |
 
 ## Tips
 
 - Open palm facing the camera works best
 - Good lighting helps detection
-- Close other apps using the webcam if start fails
+- Unlimited Void expands into a domain bubble from the palm
 - Mirrored selfie view (matches typical front-camera UX)
 
 ## Files
@@ -57,8 +53,8 @@ rasengan/
   index.html
   README.md
   css/styles.css
-  js/rasengan.js   # procedural sphere renderer
-  js/main.js       # MediaPipe + camera + UI
+  js/effects.js   # RasenganFX + UnlimitedVoidFX
+  js/main.js      # MediaPipe + camera + skill UI
 ```
 
 ## Caveats

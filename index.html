@@ -3,15 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rasengan — Palm Energy Demo</title>
+  <title>Palm Energy Demo — Rasengan &amp; Unlimited Void</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
   <div class="app">
     <header class="header">
-      <h1>螺旋丸 <span class="sub">Rasengan</span></h1>
-      <p class="tagline">Webcam hand-tracking · procedural energy sphere · fan demo</p>
+      <h1 id="titleMain">螺旋丸 <span class="sub">Rasengan</span></h1>
+      <p class="tagline">Webcam hand-tracking · procedural energy FX · fan demo</p>
     </header>
+
+    <div class="skill-bar" role="tablist" aria-label="Skill select">
+      <button type="button" class="skill-btn active" data-skill="rasengan" role="tab" aria-selected="true">
+        <span class="skill-name">螺旋丸</span>
+        <span class="skill-en">Rasengan</span>
+      </button>
+      <button type="button" class="skill-btn" data-skill="void" role="tab" aria-selected="false">
+        <span class="skill-name">無量空處</span>
+        <span class="skill-en">Unlimited Void</span>
+      </button>
+    </div>
 
     <div class="stage-wrap">
       <div id="stage" class="stage">
@@ -40,15 +51,14 @@
       </label>
       <button id="btnStop" type="button" class="secondary" disabled>Stop Camera</button>
       <p class="hint">Tip: open palm facing the camera works best. Use <code>localhost</code> or HTTPS for webcam.</p>
-      <p class="disclaimer">Fan-made procedural effect only. Not affiliated with Naruto / Studio Pierrot / Shueisha.</p>
+      <p class="disclaimer">Fan-made procedural effects only. Not affiliated with Naruto / Jujutsu Kaisen / Studio Pierrot / MAPPA / Shueisha.</p>
     </aside>
   </div>
 
-  <!-- MediaPipe Hands + Camera + Drawing utils (CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
-  <script src="js/rasengan.js"></script>
+  <script src="js/effects.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
