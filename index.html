@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rasengan — Palm Energy Demo</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>螺旋丸 <span class="sub">Rasengan</span></h1>
+      <p class="tagline">Webcam hand-tracking · procedural energy sphere · fan demo</p>
+    </header>
+
+    <div class="stage-wrap">
+      <div id="stage" class="stage">
+        <video id="video" playsinline></video>
+        <canvas id="canvas"></canvas>
+        <div id="overlay" class="overlay hidden">
+          <p>Allow camera access, then show your open palm to the camera.</p>
+          <button id="btnStart" type="button">Start Camera</button>
+        </div>
+        <div id="status" class="status">Idle</div>
+      </div>
+    </div>
+
+    <aside class="controls">
+      <label class="ctrl">
+        <span>Show landmarks</span>
+        <input type="checkbox" id="toggleLandmarks" />
+      </label>
+      <label class="ctrl">
+        <span>Intensity</span>
+        <input type="range" id="intensity" min="0.4" max="1.6" step="0.05" value="1" />
+      </label>
+      <label class="ctrl">
+        <span>Size</span>
+        <input type="range" id="size" min="0.6" max="1.8" step="0.05" value="1" />
+      </label>
+      <button id="btnStop" type="button" class="secondary" disabled>Stop Camera</button>
+      <p class="hint">Tip: open palm facing the camera works best. Use <code>localhost</code> or HTTPS for webcam.</p>
+      <p class="disclaimer">Fan-made procedural effect only. Not affiliated with Naruto / Studio Pierrot / Shueisha.</p>
+    </aside>
+  </div>
+
+  <!-- MediaPipe Hands + Camera + Drawing utils (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <script src="js/rasengan.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
